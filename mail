@@ -1,0 +1,157 @@
+package com.company;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
+
+public class Main {
+ public static void main(String[] args) {
+ String[] arb = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+ String[] rim = {"I", "II", "III", "IV", "V", "VI", "VII", "IIX", "IX", "X"};
+ String[] rimNamb = {"I", "II", "III", "IV", "V", "VI", "VII", "IIX", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI", "XXII", "XXIII", "XXIV", "XXV", "XXVI", "XXVII", "XXVIII", "XXIX", "XXX", "XXXI", "XXXII", "XXXIII", "XXXIV", "XXXV", "XXXVI", "XXXVII", "XXXVIII", "XXXIX", "XL", "XLI", "XLII", "XLIII", "XLIV", "XLV", "XLVI", "XLVII", "XLVIII", "XLIX", "L", "LI", "LII", "LIII", "LIV", "LV", "LVI", "LVII", "LVIII", "LIX", "LX", "LXI", "LXII", "LXIII", "LXIV", "LXV", "LXVI", "LXVII", "LXVIII", "LXIX", "LXX", "LXXI", "LXXII", "LXXXIII", "LXXIV", "LXXV", "LXXVI", "LXXVII", "LXXVIII", "LXXXIX", "LXXX", "LXXXI", "LXXXII", "LXXXIII", "LXXXIV", "LXXXV", "LXXXVI", "LXXXVII", "LXXXVIII", "LXXXIX", "XC", "XCI", "XII", "XCIII", "XCIV", "XCV", "XCVI", "XVII", "XCVIII", "ХХIХ", "C"};
+ String[] actions = {"+", "-", "/", "*"};
+ Scanner scn = new Scanner(System.in);
+ System.out.print("Введите выражение: ");
+ String exp = scn.nextLine();
+ var hashArb = new HashSet<String>(List.of(arb));
+ var hashRim = new HashSet<String>(List.of(rim));
+ var hashOper = new HashSet<String>(List.of(actions));
+ String[] array = exp.split(" ");
+
+ if (array.length < 2) {
+ try {
+ throw new Exception();
+ } catch (Exception e) {
+ e.printStackTrace();
+ System.out.println("Не является математической операцией");
+ }
+ }
+ // у введенных чисел разные форматы
+ if (hashRim.contains(array[0]) && hashArb.contains(array[2]) || hashRim.contains(array[2]) && hashArb.contains(array[0])) {
+ try {
+ throw new Exception();
+ } catch (Exception e) {
+ e.printStackTrace();
+ System.out.println("Используются разные системы счисления");
+
+ }
+ }
+ //числа не соотв формату от 1 до 10
+ if (!hashRim.contains(array[0]) && !hashRim.contains(array[2])) {
+ if ((!hashArb.contains(array[0]) || !hashArb.contains(array[2]))) {
+ try {
+ throw new Exception();
+ } catch (Exception e) {
+ e.printStackTrace();
+ }
+ }
+ }
+ //числа не входят в диапозон от I до X
+ if (!hashArb.contains(array[0]) && !hashArb.contains(array[2])) {
+ if (!hashRim.contains(array[0]) || !hashRim.contains(array[2])) {
+ try {
+ throw new Exception();
+ } catch (Exception e) {
+ e.printStackTrace();
+ }
+ }
+ }
+
+ // Формат выражения не соотв a + b
+ if (array.length > 3) {
+ try {
+ throw new Exception();
+ } catch (Exception e) {
+ e.printStackTrace();
+ System.out.println("Формат математической опперации не удовлетворяет заданию - два операнда и один оператор( +, -, /, *");
+ }
+ }
+ //Оператор не равен {+, -, *, /}
+ if (!hashOper.contains(array[1])) {
+ try {
+ throw new Exception();
+ } catch (Exception e) {
+ e.printStackTrace();
+ System.out.println("Формат математической опперации не удовлетворяет заданию - два операнда и один оператор( +, -, /, *");
+ }
+ }
+
+ if (array.length > 3) {
+ try {
+ throw new Exception();
+ } catch (Exception e) {
+ e.printStackTrace();
+ System.out.println("Формат математической опперации не удовлетворяет заданию - два операнда и один оператор( +, -, /, *");
+ }
+ }
+ if (hashArb.contains(array[0]) && hashArb.contains(array[2])) {
+ int i1 = Integer.parseInt(array[0].trim());
+ int i2 = Integer.parseInt(array[2].trim());
+
+ switch (array[1]) {
+ case "+":
+ System.out.print(i1 + i2);
+ break;
+ case "-":
+ System.out.print(i1 - i2);
+ break;
+ case "*":
+ System.out.print(i1 * i2);
+ break;
+ case "/":
+ System.out.print(i1 / i2);
+ break;
+
+ }
+ }
+
+ int result = 1;
+ int q1 = -1;
+ int q2 = -1;
+ if (hashRim.contains(array[0]) && hashRim.contains(array[2])) {
+ for (int i = 0; i < rim.length; i++) {
+ if (Objects.equals(rim[i], array[0])) {
+ q1 = i;
+ }
+ }
+ q1++;
+ for (int i = 0; i < rim.length; i++) {
+ if (Objects.equals(rim[i], array[2])) {
+ q2 = i;
+ }
+ }
+ q2++;
+ switch (array[1]) {
+ case "+":
+ result = q1 + q2;
+ break;
+ case "-":
+ result = q1 - q2;
+ break;
+ case "*":
+ result = q1 *
+ q2;
+ break;
+ default:
+ result = q1 / q2;
+ break;
+
+ }
+
+ if (result < 1) {
+ try {
+ throw new Exception();
+ } catch (Exception e) {
+ e.printStackTrace();
+ System.out.println("В римской системе счисления нет отрицательных чисел");
+
+ }
+ }
+
+ System.out.print(rimNamb[result - 1]);
+
+ }
+
+ }
+}
